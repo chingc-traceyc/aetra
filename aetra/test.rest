@@ -1,0 +1,14 @@
+###
+GET http://localhost:8010/setup
+
+###
+GET http://localhost:8010
+
+###
+POST http://localhost:8010
+Content-Type: application/json
+
+{
+    "name": "jamie",
+    "location": "36 hello world st"
+}

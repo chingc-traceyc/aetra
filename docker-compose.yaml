@@ -1,0 +1,42 @@
+version: "3"
+
+volumes:
+  postgres-data:
+    external: true
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password123
+      POSTGRES_USER: aetra
+      POSTGRES_DB: aetra
+  aetra:
+    image: my-node-app
+    build:
+      context: ./aetra
+    ports:
+      - 8010:8000
+    volumes:
+      - ./aetra:/app
+    environment:
+      DATABASE_URL: postgresql://aetra:password123@db/aetra
+      WAIT_HOSTS: db:5432
+      WAIT_BEFORE: 5
+      WAIT_TIMEOUT: 60
+  ghi:
+    image: node:lts-bullseye
+    command: /bin/bash run.sh
+    working_dir: /app
+    volumes:
+      - ./ghi:/app
+    ports:
+      - "3000:3000"
+    environment:
+      HOST_OS: ${OS}
+      NODE_ENV: development
+      HOST: "0.0.0.0"
+      PUBLIC_URL: http://localhost:3000
+      REACT_APP_AETRA_API_HOST: http://localhost:8010
