@@ -8,7 +8,7 @@ app.use(express.json())
 // routes
 app.get('/', async (req, res) => {
     try {
-        await pool.query('SELECT * FROM schools')
+        const data = await pool.query('SELECT * FROM schools')
         res.status(200).send(data.rows)
     } catch (err) {
         console.log(err);
