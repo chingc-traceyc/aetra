@@ -8,4 +8,4 @@ const pool = new Pool({
   database: "aetra",
 });
 
-module.exports = pool;
+module.exports = pool; 
