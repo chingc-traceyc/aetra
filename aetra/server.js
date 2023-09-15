@@ -1,40 +1,25 @@
-const express = require('express')
-const pool = require('./db')
-const port = 8000
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const port = 8000;
+const products = require("./queries/products")
+const users = require("./queries/users");
+const usersRoutes = require("./routes/users");
+const productsRoutes = require("./routes/products");
 
-const app = express()
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
-// routes
-app.get('/', async (req, res) => {
-    try {
-        const data = await pool.query('SELECT * FROM schools')
-        res.status(200).send(data.rows)
-    } catch (err) {
-        console.log(err);
-        res.sendStatus(500)
-    }
-})
+products.createProductsTable();
+users.createUsersTable();
 
-app.post('/', async (req, res) => {
-    const { name, location } =  req.body
-    try {
-        await pool.query('INSERT INTO schools(name, address) VALUES ($1, $2)', [name,location])
-        res.status(200).send({message: "Successfully added child"})
-    } catch (err) {
-        console.log(err);
-        res.sendStatus(500)
-    }
-})
+app.get("/", (request, response) => {
+  response.json({ info: "Node.js, Express, and Postgres API" });
+});
 
-app.get('/setup', async (req, res) => {
-    try {
-        await pool.query('CREATE TABLE schools(id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100))')
-        res.status(200).send({ message: "Successfully created table" });
-    } catch (err) {
-        console.log(err);
-        res.sendStatus(500)
-    }
-})
+app.use("/users", usersRoutes); // Use the users router for user-related routes
+app.use("/products", productsRoutes); // Use the products router for product-related routes
 
-app.listen(port, () => console.log(`Server has started on port: ${port}`))
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`);
+});
