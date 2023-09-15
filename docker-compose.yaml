@@ -26,12 +26,12 @@ services:
       WAIT_HOSTS: db:5432
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
-  ghi:
-    image: node:lts-bullseye
-    command: /bin/bash run.sh
+  my-aetra-app:
+    build:
+      context: ./my-aetra-app
     working_dir: /app
     volumes:
-      - ./ghi:/app
+      - ./my-aetra-app:/app
     ports:
       - "3000:3000"
     environment:
