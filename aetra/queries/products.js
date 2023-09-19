@@ -6,9 +6,10 @@ const createProductsTable = async () => {
       CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         name VARCHAR(250) UNIQUE,
-        description VARCHAR(1000),
+        description TEXT,
         price NUMERIC,
-        size SMALLINT
+        weight SMALLINT,
+        image_url TEXT
       )
     `);
     console.log("Products table created (if it didn't exist).");

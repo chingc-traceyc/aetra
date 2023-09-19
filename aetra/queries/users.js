@@ -5,8 +5,8 @@ const createUsersTable = async () => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(250) UNIQUE,
-        email VARCHAR(250) UNIQUE
+        name VARCHAR(250),
+        email VARCHAR(250) UNIQUEgit a
       )
     `);
     console.log("Users table created (if it didn't exist).");
