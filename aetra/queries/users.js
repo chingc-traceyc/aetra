@@ -6,7 +6,7 @@ const createUsersTable = async () => {
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         name VARCHAR(250),
-        email VARCHAR(250) UNIQUEgit a
+        email VARCHAR(250) UNIQUE
       )
     `);
     console.log("Users table created (if it didn't exist).");
