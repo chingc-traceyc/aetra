@@ -13,16 +13,16 @@ services:
       POSTGRES_PASSWORD: password123
       POSTGRES_USER: aetra
       POSTGRES_DB: aetra
-  aetra:
+  server:
     image: my-node-app
     build:
-      context: ./aetra
+      context: ./server
     ports:
       - 8010:8000
     volumes:
-      - ./aetra:/app
+      - ./server:/app
     environment:
-      DATABASE_URL: postgresql://aetra:password123@db/aetra
+      DATABASE_URL: postgresql://server:password123@db/server
       WAIT_HOSTS: db:5432
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
