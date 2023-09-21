@@ -9,6 +9,7 @@ services:
     image: postgres:latest
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./server/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     environment:
       POSTGRES_PASSWORD: password123
       POSTGRES_USER: aetra
@@ -22,7 +23,7 @@ services:
     volumes:
       - ./server:/app
     environment:
-      DATABASE_URL: postgresql://server:password123@db/server
+      DATABASE_URL: postgresql://aetra:password123@db/aetra
       WAIT_HOSTS: db:5432
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
