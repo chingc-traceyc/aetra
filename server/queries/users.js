@@ -22,10 +22,14 @@ const getUserById = (request, response) => {
 
 const createUser = (request, response) => {
   const { name, email } = request.body;
+  let guest = true
+  if (name && email) {
+    guest = false
+  }
 
   pool.query(
-    "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-    [name, email],
+    "INSERT INTO users (name, email, is_guest) VALUES ($1, $2, $3) RETURNING *",
+    [name, email, guest],
     (error, results) => {
       if (error) {
         throw error;

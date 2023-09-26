@@ -8,21 +8,22 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT,
     price NUMERIC,
     weight SMALLINT,
-    image_url TEXT
+    image_url TEXT,
+    stock_quantity INTEGER
 );
 
 -- Create the 'users' table
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(250),
-    email VARCHAR(250) UNIQUE
+    email VARCHAR(250) UNIQUE,
+    is_guest BOOLEAN DEFAULT TRUE
 );
 
 -- Create the 'carts' table
 CREATE TABLE IF NOT EXISTS carts (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    cookie_id INTEGER
+    user_id INTEGER REFERENCES users(id)
 );
 
 -- Create the 'cart_items' table
