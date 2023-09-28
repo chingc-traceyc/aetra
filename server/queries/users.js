@@ -113,12 +113,21 @@ const updateUser = (request, response) => {
     "UPDATE users SET name = $1, email = $2 WHERE id = $3",
     [name, email, id],
     (error, results) => {
+    try {
       if (error) {
         throw error;
       }
-      response.status(200).send(`User modified with ID: ${id}`);
+
+      if (results.rows.length === 0) {
+        response.status(400).send('User not found')
+      } else {
+        response.status(200).send(`User modified with ID: ${id}`);
+      }
+    } catch (error) {
+      console.error(error);
+      response.status(500).send('Interval server error')
     }
-  );
+});
 };
 
 const deleteUser = (request, response) => {
