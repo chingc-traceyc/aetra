@@ -27,23 +27,25 @@ const createUser = (request, response) => {
     guest = false
   }
 
-  try {
+
     pool.query(
       "INSERT INTO users (name, email, is_guest) VALUES ($1, $2, $3) RETURNING *",
       [name, email, guest],
       (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(201).send(`User added with ID: ${results.rows[0].id}`);
+        try {
+          if (error) {
+            throw error;
+          }
+          response.status(201).send(`User added with ID: ${results.rows[0].id}`);
+        } catch (error) {
+        console.error(error)
+        response.status(400).send('Duplicate email, user was not created.');
       }
+    }
     );
   }
-  catch (error) {
-    console.error(error)
-    response.status(400).send('Duplicate email, user was not created.');
-  }
-  }
+
+
 
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id);
