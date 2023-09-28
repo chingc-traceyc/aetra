@@ -38,7 +38,9 @@ Content-Type: application/json
     "name": "Green Loose Leaf Tea",
     "description": "Sourced from LamDong, VN",
     "price": 50,
-    "size": 15
+    "weight": 15,
+    "image_url": "",
+    "stock_quantity": ""
 }
 
 ###
@@ -55,5 +57,7 @@ Content-Type: application/json
     "name": "Black Assam Tea",
     "description": "Sourced from LamDong, VN",
     "price": 30,
-    "size": 10
+    "weight": 15,
+    "image_url": "",
+    "stock_quantity": ""
 }
