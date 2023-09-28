@@ -117,7 +117,6 @@ const updateUser = (request, response) => {
       if (error) {
         throw error;
       }
-
       if (results.rows.length === 0) {
         response.status(400).send('User not found')
       } else {
@@ -134,10 +133,19 @@ const deleteUser = (request, response) => {
   const id = parseInt(request.params.id);
 
   pool.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
-    if (error) {
-      throw error;
+    try {
+      if (error) {
+        throw error;
+      }
+      if (results.rows.length === 0) {
+        response.status(404).send('User does not exist')
+      } else {
+      response.status(200).send(`User deleted with ID: ${id}`);
+      }
+    } catch (error) {
+      console.error(error)
+      response.status(500).send('Internal server error')
     }
-    response.status(200).send(`User deleted with ID: ${id}`);
   });
 };
 
