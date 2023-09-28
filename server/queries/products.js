@@ -103,21 +103,42 @@ const createProduct = async (request, response) => {
   }
 };
 
+// const updateProduct = (request, response) => {
+//   const id = parseInt(request.params.id);
+//   const { name, description, price, weight, image_url, stock_quantity } = request.body;
+
+//   pool.query(
+//     "UPDATE products SET name = $1, description = $2, price = $3, weight = $4 image_url = $5 stock_quantity = $6 WHERE id = $7",
+//     [name, description, price, weight, image_url, stock_quantity, id],
+//     (error, results) => {
+//       if (error) {
+//         throw error;
+//       }
+//       response.status(200).send(`Product modified with ID: ${id}`);
+//     }
+//   );
+// };
+
 const updateProduct = (request, response) => {
   const id = parseInt(request.params.id);
-  const { name, description, price, size } = request.body;
+  const { name, description, price, weight, image_url, stock_quantity } =
+    request.body;
 
-  pool.query(
-    "UPDATE products SET name = $1, description = $2, price = $3, size = $4 WHERE id = $5",
-    [name, description, price, size, id],
-    (error, results) => {
-      if (error) {
-        throw error;
+  try {
+    pool.query(
+      "UPDATE products SET name = $1, description = $2, price = $3, weight = $4, image_url = $5, stock_quantity = $6 WHERE id = $7",
+      [name, description, price, weight, image_url, stock_quantity, id],
+      (error, results) => {
+        response.status(200).send(`Product modified for ID ${id}`);
       }
-      response.status(200).send(`Product modified with ID: ${id}`);
-    }
-  );
+    );
+  } catch (error) {
+    response
+      .status(500)
+      .json({ error: `An error occurred while updating the product with ID ${id}.` });
+  }
 };
+
 
 const deleteProduct = (request, response) => {
   const id = parseInt(request.params.id);
