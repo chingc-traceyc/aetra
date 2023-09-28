@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8010/products/1
+DELETE http://localhost:8010/products/3
 
 ###
 GET http://localhost:8010/products/3
@@ -54,7 +54,7 @@ PUT http://localhost:8010/products/1
 Content-Type: application/json
 
 {
-    "name": "Black Assam Tea",
+    "name": "Earl Grey Tea",
     "description": "Sourced from LamDong, VN",
     "price": 30,
     "weight": 15,

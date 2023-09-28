@@ -124,32 +124,116 @@ const updateProduct = (request, response) => {
   const { name, description, price, weight, image_url, stock_quantity } =
     request.body;
 
+  // Check if the product with the specified ID exists
+  pool.query(
+    "SELECT * FROM products WHERE id = $1",
+    [id],
+    (selectError, selectResults) => {
+      if (selectError) {
+        // Handle the error from the select query
+        console.error(selectError);
+        response
+          .status(500)
+          .json({
+            error: `An error occurred while checking the product with ID ${id}.`,
+          });
+      } else if (selectResults.rows.length === 0) {
+        // If no product with the specified ID exists, return a 404 Not Found status
+        response
+          .status(404)
+          .json({ error: `Product with ID ${id} not found.` });
+      } else {
+        // If the product exists, proceed with the update
+        try {
+          pool.query(
+            "UPDATE products SET name = $1, description = $2, price = $3, weight = $4, image_url = $5, stock_quantity = $6 WHERE id = $7",
+            [name, description, price, weight, image_url, stock_quantity, id],
+            (updateError, updateResults) => {
+              if (updateError) {
+                // Handle the error from the update query
+                console.error(updateError);
+                response
+                  .status(500)
+                  .json({
+                    error: `An error occurred while updating the product with ID ${id}.`,
+                  });
+              } else {
+                response.status(200).send(`Product modified for ID ${id}`);
+              }
+            }
+          );
+        } catch (error) {
+          response
+            .status(500)
+            .json({ error: `An error occurred while processing the request.` });
+        }
+      }
+    }
+  );
+};
+
+// const deleteProduct = (request, response) => {
+//   const id = parseInt(request.params.id);
+//     pool.query("DELETE FROM products WHERE id = $1", [id], (error, results) => {
+//     if (error) {
+//       throw error;
+//     }
+//     response.status(200).send(`Product deleted with ID: ${id}`);
+//   });
+
+// };
+
+const deleteProduct = (request, response) => {
+  const id = parseInt(request.params.id);
+
   try {
+    // Check if the product with the specified ID exists
     pool.query(
-      "UPDATE products SET name = $1, description = $2, price = $3, weight = $4, image_url = $5, stock_quantity = $6 WHERE id = $7",
-      [name, description, price, weight, image_url, stock_quantity, id],
-      (error, results) => {
-        response.status(200).send(`Product modified for ID ${id}`);
+      "SELECT * FROM products WHERE id = $1",
+      [id],
+      (selectError, selectResults) => {
+        if (selectError) {
+          // Handle the error from the select query
+          console.error(selectError);
+          response
+            .status(500)
+            .json({
+              error: `An error occurred while checking the product with ID ${id}.`,
+            });
+        } else if (selectResults.rows.length === 0) {
+          // If no product with the specified ID exists, return a 404 Not Found status
+          response
+            .status(404)
+            .json({ error: `Product with ID ${id} not found.` });
+        } else {
+          // If the product exists, proceed with the deletion
+          pool.query(
+            "DELETE FROM products WHERE id = $1",
+            [id],
+            (deleteError, deleteResults) => {
+              if (deleteError) {
+                // Handle the error from the delete query
+                console.error(deleteError);
+                response
+                  .status(500)
+                  .json({
+                    error: `An error occurred while deleting the product with ID ${id}.`,
+                  });
+              } else {
+                response.status(200).send(`Product deleted with ID: ${id}`);
+              }
+            }
+          );
+        }
       }
     );
   } catch (error) {
     response
       .status(500)
-      .json({ error: `An error occurred while updating the product with ID ${id}.` });
+      .json({ error: "An error occurred while processing the request." });
   }
 };
 
-
-const deleteProduct = (request, response) => {
-  const id = parseInt(request.params.id);
-
-  pool.query("DELETE FROM products WHERE id = $1", [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).send(`Product deleted with ID: ${id}`);
-  });
-};
 
 module.exports = {
   getProducts,
