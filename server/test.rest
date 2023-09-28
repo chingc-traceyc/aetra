@@ -10,6 +10,7 @@ Content-Type: application/json
     "email": "james@email.com"
 }
 
+
 ###
 DELETE http://localhost:8010/users/2
 

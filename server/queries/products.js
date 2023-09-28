@@ -1,23 +1,5 @@
 const pool = require("../postgres-config");
 
-const createProductsTable = async () => {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS products (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(250) UNIQUE,
-        description TEXT,
-        price NUMERIC,
-        weight SMALLINT,
-        image_url TEXT
-      )
-    `);
-    console.log("Products table created (if it didn't exist).");
-  } catch (error) {
-    console.error("Error creating products table:", error);
-  }
-};
-
 const getProducts = (request, response) => {
   pool.query("SELECT * FROM products ORDER BY id ASC", (error, results) => {
     if (error) {
@@ -81,7 +63,6 @@ const deleteProduct = (request, response) => {
 };
 
 module.exports = {
-  createProductsTable,
   getProducts,
   getProductById,
   createProduct,

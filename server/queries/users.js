@@ -1,20 +1,5 @@
 const pool = require("../postgres-config");
 
-const createUsersTable = async () => {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(250),
-        email VARCHAR(250) UNIQUE
-      )
-    `);
-    console.log("Users table created (if it didn't exist).");
-  } catch (error) {
-    console.error("Error creating products table:", error);
-  }
-};
-
 const getUsers = (request, response) => {
   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
     if (error) {
@@ -37,10 +22,14 @@ const getUserById = (request, response) => {
 
 const createUser = (request, response) => {
   const { name, email } = request.body;
+  let guest = true
+  if (name && email) {
+    guest = false
+  }
 
   pool.query(
-    "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-    [name, email],
+    "INSERT INTO users (name, email, is_guest) VALUES ($1, $2, $3) RETURNING *",
+    [name, email, guest],
     (error, results) => {
       if (error) {
         throw error;
@@ -78,7 +67,6 @@ const deleteUser = (request, response) => {
 };
 
 module.exports = {
-  createUsersTable,
   getUsers,
   getUserById,
   createUser,
