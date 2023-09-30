@@ -47,7 +47,7 @@ Content-Type: application/json
 DELETE http://localhost:8010/products/3
 
 ###
-GET http://localhost:8010/products/3
+GET http://localhost:8010/products/1
 
 ###
 PUT http://localhost:8010/products/1
@@ -61,3 +61,6 @@ Content-Type: application/json
     "image_url": "",
     "stock_quantity": 5
 }
+
+###
+GET http://localhost:8010/carts

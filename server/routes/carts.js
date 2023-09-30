@@ -3,9 +3,9 @@ const router = express.Router();
 const cartsQueries = require("../queries/cart");
 
 // Define product-related routes here
-router.get("/", cartsQueries.getCarts);
+router.get("/", cartsQueries.getAll);
 // router.get("/:id", productsQueries.getProductById);
-router.post("/", cartsQueries.createCart);
+// router.post("/", cartsQueries.createCart);
 // router.put("/:id", productsQueries.updateProduct);
 // router.delete("/:id", productsQueries.deleteProduct);
 
