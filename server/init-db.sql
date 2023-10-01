@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(250),
     email VARCHAR(250) UNIQUE,
+    password VARCHAR(250),
     is_guest BOOLEAN DEFAULT TRUE
 );
 

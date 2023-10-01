@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const productsQueries = require("../queries/products");
+const productsQueries = require("../controllers/products");
 
 // Define product-related routes here
 router.get("/", productsQueries.getProducts);

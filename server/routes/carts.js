@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const cartsQueries = require("../queries/cart");
+const cartsQueries = require("../controllers/cart");
 
 // Define product-related routes here
 router.get("/", cartsQueries.getAll);
