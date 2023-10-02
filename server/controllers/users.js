@@ -195,9 +195,8 @@ const login = async (req, res) => {
   let user = req.user;
   let payload = { id: user.id, email: user.email };
   try {
-    const token = await sign(payload, SECRET)
-
-
+    const token = await sign(payload, SECRET, { expiresIn: "1h" });
+    
     return res.status(200).cookie('token', token, {httpOnly: true}).json({success: true, message: "Log in successful"})
   } catch (error) {
     console.log(error.message);
