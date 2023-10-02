@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const cartsQueries = require("../controllers/cart");
+const { userAuth } = require("../middlewares/auth-middleware");
 
 // Define product-related routes here
-router.get("/", cartsQueries.getAll);
+router.get("/", userAuth, cartsQueries.getCarts);
 // router.get("/:id", productsQueries.getProductById);
 // router.post("/", cartsQueries.createCart);
 // router.put("/:id", productsQueries.updateProduct);

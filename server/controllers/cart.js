@@ -16,7 +16,8 @@ const getAll = (request, response) => {
 };
 
 const getCarts = async (req, res) => {
-  const id = req.session.userId;
+  // console.log(req.user.id);
+  const id = req.user.id;
 
   if (id) {
     try {
@@ -26,12 +27,15 @@ const getCarts = async (req, res) => {
       ]);
       const cartId = cart.rows[0].id;
 
-      // Get the items in the cart
-      const cartItems = await pool.query(
-        "SELECT * FROM cart_items WHERE cart_id = $1",
-        [cartId]
-      );
-      res.json(cartItems.rows);
+      // // Get the items in the cart
+      // const cartItems = await pool.query(
+      //   "SELECT * FROM cart_items WHERE cart_id = $1",
+      //   [cartId]
+      // );
+      // res.json(cartItems.rows);
+      res.json({cart: cart.rows})
+
+
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ message: "Server error" });
