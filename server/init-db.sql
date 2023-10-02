@@ -35,6 +35,12 @@ CREATE TABLE IF NOT EXISTS cart_items (
     quantity SMALLINT DEFAULT 1
 );
 
+-- Add a unique constraint to cart_id and product_id combination
+ALTER TABLE cart_items
+ADD CONSTRAINT unique_cart_product
+UNIQUE (cart_id, product_id);
+
+
 -- -- Create the 'orders' table
 -- CREATE TABLE IF NOT EXISTS orders (
 --     id SERIAL PRIMARY KEY,

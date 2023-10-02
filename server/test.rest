@@ -12,9 +12,9 @@ POST http://localhost:8010/users/register
 Content-Type: application/json
 
 {
-    "name": null,
-    "email": null,
-    "password": ""
+    "name": "hi",
+    "email": "hi@email.com",
+    "password": "123"
 }
 
 ###
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
     "name": "guava5",
-    "email": "ha@email.com"
+    "email": "hi@email.com"
 }
 
 ###
@@ -68,7 +68,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8010/products/3
+DELETE http://localhost:8010/products/2
 
 ###
 GET http://localhost:8010/products/1
@@ -88,3 +88,16 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8010/carts
+
+###
+GET http://localhost:8010/carts/all
+
+###
+POST http://localhost:8010/carts/add
+Content-Type: application/json
+
+{
+    "cart_id": 1,
+    "product_id": 3,
+    "quantity": 1
+}
