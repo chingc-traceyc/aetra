@@ -8,22 +8,13 @@ GET http://localhost:8010/users/logout
 GET http://localhost:8010/users/protected
 
 ###
-POST http://localhost:8010/users
-Content-Type: application/json
-
-{
-    "name": "guava5",
-    "email": "ha@email.com"
-}
-
-###
 POST http://localhost:8010/users/register
 Content-Type: application/json
 
 {
-    "name": "hi",
-    "email": "hiii@email.com",
-    "password": "123456"
+    "name": null,
+    "email": null,
+    "password": ""
 }
 
 ###
@@ -34,6 +25,15 @@ Content-Type: application/json
     "name": "hi",
     "email": "hiii@email.com",
     "password": "123456"
+}
+
+###
+POST http://localhost:8010/users
+Content-Type: application/json
+
+{
+    "name": "guava5",
+    "email": "ha@email.com"
 }
 
 ###

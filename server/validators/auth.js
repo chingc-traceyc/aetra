@@ -2,15 +2,15 @@ const { check } = require("express-validator");
 const pool = require("../postgres-config");
 const { compare } = require("bcryptjs");
 
-//password
-const password = check("password")
-  .isLength({ min: 6 })
-  .withMessage("Password has be at least 6 characters.");
+// //password
+// const password = check("password")
+//   .isLength({ min: 6 })
+//   .withMessage("Password has be at least 6 characters.");
 
-//email
-const email = check("email")
-  .isEmail()
-  .withMessage("Please provide a valid email.");
+// //email
+// const email = check("email")
+//   .isEmail()
+//   .withMessage("Please provide a valid email.");
 
 //check if email exists
 const emailExists = check("email").custom(async (value) => {
@@ -60,6 +60,7 @@ const loginFieldsCheck = check("email").custom(async (value, { req }) => {
 // });
 
 module.exports = {
-  registerValidation: [email, password, emailExists],
+  // registerValidation: [email, password, emailExists],
+  registerValidation: [emailExists],
   loginValidation: [loginFieldsCheck],
 };
