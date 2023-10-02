@@ -20,7 +20,7 @@ app.use(passport.initialize())
 // Import routes
 app.use("/users", usersRoutes); // Use the users router for user-related routes
 app.use("/products", productsRoutes); // Use the products router for product-related routes
-app.use("/carts", cartRoutes);
+app.use("/carts", cartRoutes); // Use the carts router for cart-related routes
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}.`);

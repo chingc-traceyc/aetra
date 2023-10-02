@@ -14,6 +14,7 @@ const { userAuth } = require("../middlewares/auth-middleware");
 // router.put("/:id", usersQueries.updateUser);
 // router.delete("/:id", usersQueries.deleteUser);
 
+// If you want a protected endpoint, be sure to pass in userAuth as the second parameter
 router.get("/protected", userAuth, usersQueries.protected);
 router.get("/", usersQueries.getUsers);
 router.post(
