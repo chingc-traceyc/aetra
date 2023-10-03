@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(250),
     email VARCHAR(250) UNIQUE,
+    password VARCHAR(250),
     is_guest BOOLEAN DEFAULT TRUE
 );
 
@@ -33,6 +34,12 @@ CREATE TABLE IF NOT EXISTS cart_items (
     product_id INTEGER REFERENCES products(id),
     quantity SMALLINT DEFAULT 1
 );
+
+-- Add a unique constraint to cart_id and product_id combination
+ALTER TABLE cart_items
+ADD CONSTRAINT unique_cart_product
+UNIQUE (cart_id, product_id);
+
 
 -- -- Create the 'orders' table
 -- CREATE TABLE IF NOT EXISTS orders (
