@@ -53,40 +53,28 @@ const addItem = async (req, res) => {
       ]);
       const cartId = cart.rows[0].id;
 
-      // Check if there's enough stock for the product
-      const product = await pool.query(
-        "SELECT stock_quantity FROM products WHERE id = $1",
-        [product_id]
+      // decrease stock amount in the products table
+      await pool.query(
+        "UPDATE products SET stock_quantity = (stock_quantity - $1) WHERE id = $2",
+        [quantity, product_id]
       );
-      const availableStock = product.rows[0].stock_quantity;
 
-      if (availableStock >= quantity) {
-        // decrease stock quantity from products table
-        await pool.query(
-          "UPDATE products SET stock_quantity = (stock_quantity - $1) WHERE id = $2",
-          [quantity, product_id]
-        );
-        // insert or update product into the user's cart
-        await pool.query(
-          `INSERT INTO cart_items(cart_id, product_id, quantity)
+      // insert or update product into the user's cart
+      await pool.query(
+        `INSERT INTO cart_items(cart_id, product_id, quantity)
         VALUES($1, $2, $3) ON CONFLICT (cart_id, product_id)
       DO UPDATE SET quantity = cart_items.quantity + $3 RETURNING *`,
-          [cartId, product_id, quantity]
-        );
+        [cartId, product_id, quantity]
+      );
 
-        const results = await pool.query(
-          "SELECT p.*, c.quantity, ROUND((p.price * c.quantity):: NUMERIC, 2) AS subtotal FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.cart_id = $1",
-          [cartId]
-        );
-
-        return res.status(200).json({ cart: results.rows });
-      } else {
-        // Not enough stock, return an err
-        return res.status(400).json({ error: "Not enough stock available." });
-      }
+      const results = await pool.query(
+        "SELECT p.*, c.quantity, ROUND((p.price * c.quantity):: NUMERIC, 2) AS subtotal FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.cart_id = $1",
+        [cartId]
+      );
+      return res.status(200).json({ product: results.rows });
     } catch (error) {
       console.error(error.message);
-      return res.json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   }
 };
@@ -102,12 +90,13 @@ const decreaseItem = async (req, res) => {
       ]);
       const cartId = cart.rows[0].id;
 
-      // Add qty back into stock_quantity table
+      // Add qty back into the products table
       await pool.query(
         "UPDATE products SET stock_quantity = (stock_quantity + 1) WHERE id = $1",
         [product_id]
       );
 
+      // update the users cart to decrease prod qty by 1
       await pool.query(
         "UPDATE cart_items SET quantity = quantity - 1 WHERE cart_items.cart_id = $1 AND cart_items.product_id = $2 RETURNING *",
         [cartId, product_id]
