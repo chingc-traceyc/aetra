@@ -7,7 +7,7 @@ const {
 } = require("../middlewares/validation-middleware");
 const { productExistsCheckAndHasStock } = require("../validators/products");
 
-// Define product-related routes here
+// Define cart-related routes here
 router.get("/", userAuth, cartsQueries.getCarts);
 router.get("/all", cartsQueries.getAll);
 router.post("/add", userAuth, productExistsCheckAndHasStock, validationMiddleware, cartsQueries.addItem);

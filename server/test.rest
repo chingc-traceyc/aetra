@@ -97,8 +97,8 @@ POST http://localhost:8010/carts/add
 Content-Type: application/json
 
 {
-    "product_id": 1,
-    "quantity": 6
+    "product_id": 3,
+    "quantity": 2
 }
 
 ###
@@ -114,7 +114,7 @@ PUT http://localhost:8010/carts/decrease
 Content-Type: application/json
 
 {
-    "product_id": 3
+    "product_id": 1
 }
 
 ###
