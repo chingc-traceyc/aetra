@@ -36,13 +36,13 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8010/users/2
+DELETE http://localhost:8010/users/15
 
 ###
-GET http://localhost:8010/users/1
+GET http://localhost:8010/users/20
 
 ###
-PUT http://localhost:8010/users/1
+PUT http://localhost:8010/users/20
 Content-Type: application/json
 
 {
