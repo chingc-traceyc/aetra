@@ -79,6 +79,44 @@ const addItem = async (req, res) => {
   }
 };
 
+const removeItem = async (req, res) => {
+  const userId = req.user.id;
+  const { product_id } = req.body;
+
+  if (userId) {
+    try {
+      // Get user's cart id
+      const cart = await pool.query("SELECT * FROM carts WHERE user_id = $1", [
+        userId,
+      ]);
+      const cartId = cart.rows[0].id;
+
+      // Retrieve items from the cart that are about to be removed
+      const itemsInCart = await pool.query(
+        "SELECT product_id, quantity FROM cart_items WHERE cart_id = $1 AND cart_items.product_id = $2",
+        [cartId, product_id]
+      );
+
+      // Increment the stock quantity in the products table
+      const { quantity } = itemsInCart.rows[0];
+      await pool.query(
+        "UPDATE products SET stock_quantity = stock_quantity + $1 WHERE id = $2",
+        [quantity, product_id]
+      );
+
+      // Delete items from cart
+      await pool.query(
+        "DELETE FROM cart_items WHERE cart_id = $1 AND cart_items.product_id = $2",
+        [cartId, product_id]
+      );
+      res.status(200).json({ message: "Product removed" });
+    } catch (error) {
+      console.error(error.message);
+      return res.json({ error: error.message });
+    }
+  }
+};
+
 const decreaseItem = async (req, res) => {
   const userId = req.user.id;
   const { product_id } = req.body;
@@ -155,6 +193,7 @@ module.exports = {
   getCarts,
   getAll,
   addItem,
+  removeItem,
   decreaseItem,
   emptyCart,
 };

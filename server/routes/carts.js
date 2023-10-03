@@ -12,6 +12,8 @@ router.get("/", userAuth, cartsQueries.getCarts);
 router.get("/all", cartsQueries.getAll);
 router.post("/add", userAuth, productExistsCheckAndHasStock, validationMiddleware, cartsQueries.addItem);
 router.put('/decrease', userAuth, cartsQueries.decreaseItem);
+router.put("/remove", userAuth, cartsQueries.removeItem);
 router.delete("/", userAuth, cartsQueries.emptyCart);
+
 
 module.exports = router;

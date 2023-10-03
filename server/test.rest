@@ -71,7 +71,7 @@ Content-Type: application/json
 DELETE http://localhost:8010/products/4
 
 ###
-GET http://localhost:8010/products/1
+GET http://localhost:8010/products/3
 
 ###
 PUT http://localhost:8010/products/1
@@ -97,8 +97,16 @@ POST http://localhost:8010/carts/add
 Content-Type: application/json
 
 {
-    "product_id": 5,
-    "quantity": 1
+    "product_id": 1,
+    "quantity": 6
+}
+
+###
+PUT http://localhost:8010/carts/remove
+Content-Type: application/json
+
+{
+    "product_id": 3
 }
 
 ###
