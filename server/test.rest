@@ -59,16 +59,16 @@ POST http://localhost:8010/products
 Content-Type: application/json
 
 {
-    "name": "Oolong Tea",
+    "name": "Assam Black Tea",
     "description": "Sourced from LamDong, VN",
-    "price": 50,
-    "weight": 15,
+    "price": 45,
+    "weight": 20,
     "image_url": "",
     "stock_quantity": 0
 }
 
 ###
-DELETE http://localhost:8010/products/2
+DELETE http://localhost:8010/products/4
 
 ###
 GET http://localhost:8010/products/1
@@ -80,10 +80,10 @@ Content-Type: application/json
 {
     "name": "Earl Grey Tea",
     "description": "Sourced from LamDong, VN",
-    "price": 30,
+    "price": 25,
     "weight": 15,
     "image_url": "",
-    "stock_quantity": 0
+    "stock_quantity": 50
 }
 
 ###
