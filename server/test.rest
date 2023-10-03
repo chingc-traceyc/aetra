@@ -74,16 +74,16 @@ DELETE http://localhost:8010/products/2
 GET http://localhost:8010/products/1
 
 ###
-PUT http://localhost:8010/products/1
+PUT http://localhost:8010/products/3
 Content-Type: application/json
 
 {
-    "name": "Earl Grey Tea",
+    "name": "Oolong Tea",
     "description": "Sourced from LamDong, VN",
     "price": 30,
     "weight": 15,
     "image_url": "",
-    "stock_quantity": 5
+    "stock_quantity": 75
 }
 
 ###
@@ -97,8 +97,8 @@ POST http://localhost:8010/carts/add
 Content-Type: application/json
 
 {
-    "product_id": 3,
-    "quantity": 1
+    "product_id": 1,
+    "quantity": 2
 }
 
 ###
@@ -106,8 +106,8 @@ PUT http://localhost:8010/carts/decrease
 Content-Type: application/json
 
 {
-    "product_id": 1
+    "product_id": 3
 }
 
 ###
-DELETE http://localhost:8010/carts/1
+DELETE http://localhost:8010/carts

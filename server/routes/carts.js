@@ -8,6 +8,6 @@ router.get("/", userAuth, cartsQueries.getCarts);
 router.get("/all", cartsQueries.getAll);
 router.post('/add', userAuth, cartsQueries.addItem);
 router.put('/decrease', userAuth, cartsQueries.decreaseItem);
-router.delete("/:id", userAuth, cartsQueries.emptyCart);
+router.delete("/", userAuth, cartsQueries.emptyCart);
 
 module.exports = router;
