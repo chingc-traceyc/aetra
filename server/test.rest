@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
     "name": "hi",
-    "email": "hi@email.com",
+    "email": "hello@email.com",
     "password": "123"
 }
 
@@ -97,7 +97,17 @@ POST http://localhost:8010/carts/add
 Content-Type: application/json
 
 {
-    "cart_id": 1,
     "product_id": 3,
     "quantity": 1
 }
+
+###
+PUT http://localhost:8010/carts/decrease
+Content-Type: application/json
+
+{
+    "product_id": 1
+}
+
+###
+DELETE http://localhost:8010/carts/1

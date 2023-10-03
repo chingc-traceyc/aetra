@@ -16,7 +16,6 @@ const getAll = (request, response) => {
 };
 
 const getCarts = async (req, res) => {
-  // console.log(req.user.id);
   const id = req.user.id;
 
   if (id) {
@@ -29,13 +28,10 @@ const getCarts = async (req, res) => {
 
       // Get the items in the cart
       const cartItems = await pool.query(
-        "SELECT * FROM cart_items WHERE cart_id = $1",
+        "SELECT *, ROUND((p.price * c.quantity)::NUMERIC, 2) AS subtotal FROM cart_items c LEFT JOIN products p ON (c.product_id = p.id) WHERE cart_id = $1",
         [cartId]
       );
-      // res.json(cartItems.rows);
-      res.json({cart: cartItems.rows})
-
-
+      res.json({ cart: cartItems.rows });
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ message: "Server error" });
@@ -46,24 +42,75 @@ const getCarts = async (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  const { cart_id, product_id, quantity } = req.body
-  await pool.query(
-    `INSERT INTO cart_items(cart_id, product_id, quantity)
-         VALUES($1, $2, $3) ON CONFLICT (cart_id, product_id)
-        DO UPDATE set quantity = cart_items.quantity + 1 returning *`,
-    [cart_id, product_id, quantity]
-  );
+  const userId = req.user.id;
+  const { product_id, quantity } = req.body;
 
-  const results = await pool.query(
-    "Select products.*, cart_items.quantity, round((products.price * cart_items.quantity)::numeric, 2) as subtotal from cart_items join products on cart_items.id = products.id where cart_items.cart_id = $1",
-    [cart_id]
-  );
+  if (userId) {
+    try {
+      const cart = await pool.query("SELECT * FROM carts WHERE user_id = $1", [
+        userId,
+      ]);
+      const cartId = cart.rows[0].id;
 
-  return res.json({cart: results.rows});
+      await pool.query(
+        `INSERT INTO cart_items(cart_id, product_id, quantity)
+        VALUES($1, $2, $3) ON CONFLICT (cart_id, product_id)
+      DO UPDATE SET quantity = cart_items.quantity + $3 RETURNING *`,
+        [cartId, product_id, quantity]
+      );
+
+      const results = await pool.query(
+        "SELECT p.*, c.quantity, ROUND((p.price * c.quantity):: NUMERIC, 2) AS subtotal FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.cart_id = $1",
+        [cartId]
+      );
+
+      return res.status(200).json({ cart: results.rows });
+    } catch (error) {
+      console.error(error.message);
+      return res.json({ error: error.message });
+    }
+  }
+};
+
+const decreaseItem = async (req, res) => {
+  const userId = req.user.id;
+  const { product_id } = req.body;
+
+  if (userId) {
+    try {
+      const cart = await pool.query("SELECT * FROM carts WHERE user_id = $1", [
+        userId,
+      ]);
+      const cartId = cart.rows[0].id;
+
+      await pool.query(
+        "UPDATE cart_items SET quantity = quantity - 1 WHERE cart_items.cart_id = $1 AND cart_items.product_id = $2 RETURNING *",
+        [cartId, product_id]
+      );
+
+      const results = await pool.query(
+        "SELECT p.*, c.quantity, ROUND((p.price * c.quantity):: NUMERIC, 2) AS subtotal FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.cart_id = $1",
+        [cartId]
+      );
+
+      return res.status(200).json({ cart: results.rows });
+    } catch (error) {
+      console.error(error);
+      return res.json({ error: error.message });
+    }
+  }
+};
+
+const emptyCart = async (req, res) => {
+  const cartId = parseInt(req.params.id);
+  await pool.query("DELETE FROM cart_items WHERE cart_id = $1", [cartId]);
+  res.status(200).json({ message: "Cart emptied" });
 };
 
 module.exports = {
   getCarts,
   getAll,
-  addItem
+  addItem,
+  decreaseItem,
+  emptyCart,
 };
