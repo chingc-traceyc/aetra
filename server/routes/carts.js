@@ -10,10 +10,16 @@ const { productExistsCheckAndHasStock } = require("../validators/products");
 // Define cart-related routes here
 router.get("/", userAuth, cartsQueries.getCarts);
 router.get("/all", cartsQueries.getAll);
-router.post("/add", userAuth, productExistsCheckAndHasStock, validationMiddleware, cartsQueries.addItem);
-router.put('/decrease', userAuth, cartsQueries.decreaseItem);
+router.post(
+  "/add",
+  userAuth,
+  productExistsCheckAndHasStock,
+  validationMiddleware,
+  cartsQueries.addItem
+);
+router.put("/decrease", userAuth, cartsQueries.decreaseItem);
 router.put("/remove", userAuth, cartsQueries.removeItem);
 router.delete("/", userAuth, cartsQueries.emptyCart);
-
+router.get("/checkout", userAuth, cartsQueries.checkout);
 
 module.exports = router;

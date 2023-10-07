@@ -22,33 +22,21 @@ POST http://localhost:8010/users/login
 Content-Type: application/json
 
 {
-    "email": "t@e.com",
-    "password": "123456"
+    "email": "hello@email.com",
+    "password": "123"
 }
 
-###
-POST http://localhost:8010/users
-Content-Type: application/json
+# ###
+# GET http://localhost:8010/users/20
 
-{
-    "name": "guava5",
-    "email": "hi@email.com"
-}
+# ###
+# PUT http://localhost:8010/users/20
+# Content-Type: application/json
 
-###
-DELETE http://localhost:8010/users/15
-
-###
-GET http://localhost:8010/users/20
-
-###
-PUT http://localhost:8010/users/20
-Content-Type: application/json
-
-{
-    "name": "jamie2",
-    "email": "jamie@email.com"
-}
+# {
+#     "name": "jamie2",
+#     "email": "jamie@email.com"
+# }
 
 
 ###
@@ -64,7 +52,7 @@ Content-Type: application/json
     "price": 45,
     "weight": 20,
     "image_url": "",
-    "stock_quantity": 0
+    "stock_quantity": 20
 }
 
 ###
@@ -97,8 +85,8 @@ POST http://localhost:8010/carts/add
 Content-Type: application/json
 
 {
-    "product_id": 3,
-    "quantity": 2
+    "product_id": 1,
+    "quantity": 1
 }
 
 ###
@@ -114,8 +102,11 @@ PUT http://localhost:8010/carts/decrease
 Content-Type: application/json
 
 {
-    "product_id": 1
+    "product_id": 2
 }
 
 ###
 DELETE http://localhost:8010/carts
+
+###
+GET http://localhost:8010/carts/checkout
