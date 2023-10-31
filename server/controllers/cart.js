@@ -1,13 +1,10 @@
 const pool = require("../postgres-config");
 
-const getAll = (request, response) => {
+const getAll = async (request, response) => {
   try {
-    pool.query("SELECT * FROM carts ORDER BY id ASC", (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
-    });
+    results = await pool.query("SELECT * FROM carts ORDER BY id ASC");
+
+    response.status(200).json({carts: results.rows});
   } catch (error) {
     response
       .status(500)
@@ -189,6 +186,72 @@ const emptyCart = async (req, res) => {
   }
 };
 
+// const checkout = async (req, res) => {
+//   const userId = req.user.id;
+
+//   if (userId) {
+//     try {
+//       // Create new order id
+//       const order = await pool.query(
+//         "INSERT INTO orders(user_id) VALUES ($1) RETURNING *",
+//         [userId]
+//       );
+//       const orderId = order.rows[0].id;
+
+//       // Get user's cart id
+//       const cart = await pool.query("SELECT * FROM carts WHERE user_id = $1", [
+//         userId,
+//       ]);
+//       const cartId = cart.rows[0].id;
+
+//       // Check if cart is empty
+//       const cartItems = await pool.query(
+//         "SELECT * FROM cart_items WHERE cart_id = $1",
+//         [cartId]
+//       );
+
+//       //  if (cartItems.rows.length === 0) {
+//       //    throw new Error("Cart is empty");
+//       //  }
+
+//       //  else {
+//          // Retrieve items from the cart
+//          const itemsInCart = await pool.query(
+//            "SELECT product_id, quantity FROM cart_items WHERE cart_id = $1",
+//            [cartId]
+//          );
+
+//          // Add products to the order_items
+//          for (const item of itemsInCart.rows) {
+//            const { product_id, quantity } = item;
+//            await pool.query(
+//              "INSERT INTO orders_items(order_id, product_id, quantity) VALUES ($1, $2, $3)",
+//              [orderId, product_id, quantity]
+//            );
+//          }
+
+//          // Empty the items from cart
+//          await pool.query("DELETE FROM cart_items WHERE cart_id = $1", [
+//            cartId,
+//          ]);
+
+//          // Return the order
+//          const results = await pool.query(
+//            "SELECT *, ROUND((p.price * o.quantity)::NUMERIC, 2) AS subtotal FROM orders_items o JOIN products p ON (o.product_id = p.id) WHERE order_id = $1",
+//            [orderId]
+//          );
+//          res.status(200).json({ order: results.rows });
+//        }
+
+//     // }
+//      catch (error) {
+//       console.error(error);
+//       return res.json({ error: error.message });
+//     }
+//   }
+// };
+
+
 const checkout = async (req, res) => {
   const userId = req.user.id;
 
@@ -206,6 +269,7 @@ const checkout = async (req, res) => {
         userId,
       ]);
       const cartId = cart.rows[0].id;
+
 
       // Retrieve items from the cart
       const itemsInCart = await pool.query(

@@ -26,19 +26,6 @@ Content-Type: application/json
     "password": "123"
 }
 
-# ###
-# GET http://localhost:8010/users/20
-
-# ###
-# PUT http://localhost:8010/users/20
-# Content-Type: application/json
-
-# {
-#     "name": "jamie2",
-#     "email": "jamie@email.com"
-# }
-
-
 ###
 GET http://localhost:8010/products
 
@@ -109,4 +96,8 @@ Content-Type: application/json
 DELETE http://localhost:8010/carts
 
 ###
-GET http://localhost:8010/carts/checkout
+POST http://localhost:8010/carts/checkout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJoZWxsb0BlbWFpbC5jb20iLCJpYXQiOjE2OTg3ODU2MzYsImV4cCI6MTY5ODc4OTIzNn0.qCtHL5Mw1VTj-6igiDWUhZypKB4-bx0ZyaFrsiUGqfA
+
+{}

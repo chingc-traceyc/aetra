@@ -7,10 +7,10 @@ const { compare } = require("bcryptjs");
 //   .isLength({ min: 6 })
 //   .withMessage("Password has be at least 6 characters.");
 
-// //email
-// const email = check("email")
-//   .isEmail()
-//   .withMessage("Please provide a valid email.");
+//email
+const email = check("email")
+  .isEmail()
+  .withMessage("Please provide a valid email.");
 
 //check if email exists
 const emailExists = check("email").custom(async (value) => {
@@ -43,6 +43,6 @@ const loginFieldsCheck = check("email").custom(async (value, { req }) => {
 
 module.exports = {
   // registerValidation: [email, password, emailExists],
-  registerValidation: [emailExists],
+  registerValidation: [email, emailExists],
   loginValidation: [loginFieldsCheck],
 };
