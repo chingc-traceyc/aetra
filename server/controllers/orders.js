@@ -23,11 +23,6 @@ const getUserOrders = async (req, res) => {
         [id]
       );
 
-      // //   Get the items in the order
-      //   const orderItems = await pool.query(
-      //     "SELECT *, ROUND((p.price * c.quantity)::NUMERIC, 2) AS amount FROM orders_items o LEFT JOIN products p ON (o.product_id = p.id) WHERE order_id = $1",
-      //     [orderId]
-      //   );
       res.json({ order: orders.rows });
     } catch (err) {
       console.error(err.message);
@@ -46,7 +41,7 @@ const getOrder = async (req, res) => {
     try {
       // Get the order items associate with the order id
       const orderItems = await pool.query(
-        "SELECT o.*, p.name, p.price, ROUND((p.price * o.quantity)::NUMERIC, 2) AS total FROM orders_items o JOIN products p ON (o.product_id = p.id) WHERE order_id = $1 AND user_id = $2",
+        "SELECT o.*, p.name, p.price, p.image_url, ROUND((p.price * o.quantity)::NUMERIC, 2) AS total FROM orders_items o JOIN products p ON (o.product_id = p.id) WHERE order_id = $1 AND user_id = $2",
         [orderId, userId]
       );
 
