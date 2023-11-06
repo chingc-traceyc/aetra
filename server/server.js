@@ -6,6 +6,7 @@ const passport = require("passport");
 const usersRoutes = require("./routes/users");
 const productsRoutes = require("./routes/products");
 const cartRoutes = require("./routes/carts");
+const orderRoutes = require("./routes/orders");
 const app = express();
 
 // Import passport middleware
@@ -21,6 +22,7 @@ app.use(passport.initialize())
 app.use("/users", usersRoutes); // Use the users router for user-related routes
 app.use("/products", productsRoutes); // Use the products router for product-related routes
 app.use("/carts", cartRoutes); // Use the carts router for cart-related routes
+app.use("/orders", orderRoutes); // Use the carts router for order-related routes
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}.`);

@@ -98,6 +98,12 @@ DELETE http://localhost:8010/carts
 ###
 POST http://localhost:8010/carts/checkout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJoZWxsb0BlbWFpbC5jb20iLCJpYXQiOjE2OTg3ODU2MzYsImV4cCI6MTY5ODc4OTIzNn0.qCtHL5Mw1VTj-6igiDWUhZypKB4-bx0ZyaFrsiUGqfA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJoZWxsb0BlbWFpbC5jb20iLCJpYXQiOjE2OTkyNTQ0MDEsImV4cCI6MTY5OTI1ODAwMX0.tpUKu6FoxjiThD1XPHuv785Ypq2g7GWvTjacC4z4J5g
 
 {}
+
+###
+GET http://localhost:8010/orders/
+
+###
+GET http://localhost:8010/orders/all

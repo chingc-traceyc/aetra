@@ -4,7 +4,7 @@ const getAll = async (request, response) => {
   try {
     results = await pool.query("SELECT * FROM carts ORDER BY id ASC");
 
-    response.status(200).json({carts: results.rows});
+    response.status(200).json({ carts: results.rows });
   } catch (error) {
     response
       .status(500)
@@ -251,7 +251,6 @@ const emptyCart = async (req, res) => {
 //   }
 // };
 
-
 const checkout = async (req, res) => {
   const userId = req.user.id;
 
@@ -270,21 +269,42 @@ const checkout = async (req, res) => {
       ]);
       const cartId = cart.rows[0].id;
 
-
       // Retrieve items from the cart
       const itemsInCart = await pool.query(
         "SELECT product_id, quantity FROM cart_items WHERE cart_id = $1",
         [cartId]
       );
 
+      total_qty = 0;
+      total_price = 0;
       // Add products to the order_items
       for (const item of itemsInCart.rows) {
         const { product_id, quantity } = item;
+
+        // Retrieve the price of the product from the products table
+        const product = await pool.query(
+          "SELECT price FROM products WHERE id = $1",
+          [product_id]
+        );
+
+        const price = product.rows[0].price;
+
+        // Update the total_qty and total_price
+        total_qty += quantity;
+        total_price += price * quantity;
+
         await pool.query(
-          "INSERT INTO orders_items(order_id, product_id, quantity) VALUES ($1, $2, $3)",
-          [orderId, product_id, quantity]
+          "INSERT INTO orders_items(order_id, user_id, product_id, quantity) VALUES ($1, $2, $3, $4)",
+          [orderId, userId, product_id, quantity]
         );
       }
+
+      // Update the order amount and total 
+      await pool.query("UPDATE orders SET amount = $1, total = $2 WHERE id = $3", [
+        total_qty,
+        total_price,
+        orderId,
+      ]);
 
       // Empty the items from cart
       await pool.query("DELETE FROM cart_items WHERE cart_id = $1", [cartId]);

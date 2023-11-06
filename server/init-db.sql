@@ -45,7 +45,7 @@ UNIQUE (cart_id, product_id);
 CREATE TABLE IF NOT EXISTS orders (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
-    date TIMESTAMP,
+    date TIMESTAMP DEFAULT now(),
     amount INTEGER,
     total NUMERIC
 );
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS orders (
 -- -- Create the 'order_items' table
 CREATE TABLE IF NOT EXISTS orders_items (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
     order_id INTEGER REFERENCES orders(id),
     product_id INTEGER REFERENCES products(id),
     quantity SMALLINT DEFAULT 1
