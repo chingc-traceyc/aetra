@@ -40,4 +40,5 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_AETRA_API_HOST: http://localhost:8010
+      # REACT_APP_AETRA_API_HOST: http://localhost:8010
+      NEXT_PUBLIC_AETRA_API_HOST: http://localhost:8010

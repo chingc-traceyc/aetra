@@ -14,7 +14,12 @@ require('./middlewares/passport-middlewares');
 
 // Initialize middlewares
 app.use(express.json());
-app.use(cors({origin: CLIENT_URL, credentials: true}));
+allowedOrigins = [
+  "http://localhost:3001",
+  CLIENT_URL,
+];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
+
 app.use(cookieParser());
 app.use(passport.initialize())
 
