@@ -13,7 +13,7 @@ export default function AddProduct() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false); // New state variable
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const addProduct = async (event: FormEvent) => {
     event.preventDefault();
@@ -109,11 +109,13 @@ export default function AddProduct() {
         <button className="btn btn-primary btn-block" type="submit">
           Add Product
         </button>
-       {isSubmitted && <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
-            <span>Product added successfully.</span>
+        {isSubmitted && (
+          <div className="toast toast-top toast-center">
+            <div className="alert alert-success">
+              <span>Product added successfully.</span>
+            </div>
           </div>
-        </div>}
+        )}
       </form>
     </div>
   );
