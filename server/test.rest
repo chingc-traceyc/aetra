@@ -49,15 +49,15 @@ DELETE http://localhost:8010/products/4
 GET http://localhost:8010/products/3
 
 ###
-PUT http://localhost:8010/products/1
+PUT http://localhost:8010/products/2
 Content-Type: application/json
 
 {
-    "name": "Earl Grey Tea",
+    "name": "Black Tea",
     "description": "Sourced from LamDong, VN",
     "price": 25,
     "weight": 15,
-    "image_url": "",
+    "image_url": "https://edobio.com/cdn/shop/products/58.png?v=1681220763&width=1000",
     "stock_quantity": 50
 }
 

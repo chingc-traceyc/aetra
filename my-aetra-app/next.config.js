@@ -7,6 +7,9 @@ const nextConfig = {
       "www.bossenstore.com",
       "cdn11.bigcommerce.com",
       "www.spiceandtea.com",
+      "plus.unsplash.com",
+      "mockupcloud-themety.imgix.net",
+      "edobio.com",
     ],
   },
 };
